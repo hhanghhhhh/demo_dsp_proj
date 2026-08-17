@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<BramConfig>
+    <GeneralConfig>
+        <Type>PH1_LOGIC_ERAM</Type>
+        <Device>PH1A60GEG324</Device>
+        <create_VHDL>true</create_VHDL>
+        <inst>Ip_Ram_W25Q64</inst>
+        <debug_enable>NO</debug_enable>
+        <pack_enable>NO</pack_enable>
+        <byte_write>none</byte_write>
+    </GeneralConfig>
+    <ImplementOption>
+        <imp_type>20K</imp_type>
+    </ImplementOption>
+    <MemoryType>
+        <mem_type>DP</mem_type>
+    </MemoryType>
+    <PortAOption>
+        <mode_a>NORMAL</mode_a>
+        <depth_a>256</depth_a>
+        <width_a>8</width_a>
+        <register_a>RegWithOre</register_a>
+        <enable_a>enable</enable_a>
+    </PortAOption>
+    <PortBOption>
+        <mode_b>NORMAL</mode_b>
+        <depth_b>256</depth_b>
+        <width_b>8</width_b>
+        <register_b>RegWithOre</register_b>
+        <enable_b>enable</enable_b>
+    </PortBOption>
+    <FillMemoryInitValues>
+        <fill_all>NONE</fill_all>
+    </FillMemoryInitValues>
+    <AL006>
+        <ECC>DISABLE</ECC>
+        <ECC_D>DISABLE</ECC_D>
+        <CLK_MODE>ASYNC</CLK_MODE>
+        <SSROVERCE>DISABLE</SSROVERCE>
+        <A_OREGSET>SET</A_OREGSET>
+        <A_OSRMODE>ASYNC</A_OSRMODE>
+        <A_ASYNC>SYNC</A_ASYNC>
+        <B_OREGSET>SET</B_OREGSET>
+        <B_OSRMODE>ASYNC</B_OSRMODE>
+        <B_ASYNC>SYNC</B_ASYNC>
+    </AL006>
+    <GeneratedFiles>
+        <Verilog Enable="true">Ip_Ram_W25Q64.v</Verilog>
+        <VHDL Enable="false">Ip_Ram_W25Q64.vhd</VHDL>
+    </GeneratedFiles>
+</BramConfig>

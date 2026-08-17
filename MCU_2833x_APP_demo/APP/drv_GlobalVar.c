@@ -4,13 +4,13 @@
 #include "task_eeprom_param.h"
 #include "DSP2833x_Device.h"     // Header file Include File
 #include "DSP2833x_Examples.h"   // Examples Include File
+#include "drv_fpga.h"
 /***********************************************************************
 * Function Name : Variable definition
 ***********************************************************************/
 void mgmd_vInit(void);
 void Init_Version(void);
 void Init_W5500(void);
-void FpgaDrvInit(void);
 /***********************************************************************
 * Function Name : InitUserPara
 * Arguments     :

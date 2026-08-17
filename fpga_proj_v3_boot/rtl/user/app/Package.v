@@ -1,0 +1,6 @@
+`define VERSION					8'h80
+
+`define	FLASHADDR_FLAG			24'h270000
+`define	FLASHADDR_BACKUP		24'h280000
+`define	FLASHADDR_APP			24'h500000
+

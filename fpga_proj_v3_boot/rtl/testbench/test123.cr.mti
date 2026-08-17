@@ -1,0 +1,15 @@
+D:/05-work/14_HVSMU_version2/02_FPGA/HVSUM_version2/rtl/TEMP_ADC_CTRL.v {1 {vlog -work work -vopt -stats=none D:/05-work/14_HVSMU_version2/02_FPGA/HVSUM_version2/rtl/TEMP_ADC_CTRL.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module TEMP_ADC_CTRL
+
+Top level modules:
+	TEMP_ADC_CTRL
+
+} {} {}} D:/05-work/14_HVSMU_version2/02_FPGA/HVSUM_version2/rtl/testbench/tb_temp_adc.v {1 {vlog -work work -vopt -stats=none D:/05-work/14_HVSMU_version2/02_FPGA/HVSUM_version2/rtl/testbench/tb_temp_adc.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module HH_tb
+
+Top level modules:
+	HH_tb
+
+} {} {}}

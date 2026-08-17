@@ -139,3 +139,88 @@ Boot 上电与返回 APP 流程：
 - **Watchdog：** EEPROM 多页写入和下载标志写入可能超过看门狗周期，当前 APP/Boot 在这些保存路径外使用 `DisableDog()` / `EnableWDog()` 包裹。新增耗时写路径必须沿用该约束，并保证所有返回路径最终恢复看门狗。
 - **失败语义：** 读取、格式校验与写入状态应继续向上层传播；运行期数据不能在未校验的 EEPROM 内容上建立。
 - **参数扩展：** APP 业务参数优先增加到 `APP_EEPROM_USER_DATA` 或其保留区，并保持不超过固定 raw payload；改变持久化解释时应升级配置版本。Boot 不读取 APP 专用配置块。
+
+## 8. DSP 与 FPGA XINTF 通信
+
+### 8.1 职责与边界
+
+XINTF 通信用于 `MCU_2833x_APP_demo` 与 `fpga_proj_v3` 之间的 32-bit 寄存器和规划中 RAM 交换。DSP 为 XINTF 总线主机，FPGA 根据地址和读写选通控制寄存器或片内 RAM。
+
+| 层级 | 核心文件 | 职责 |
+| --- | --- | --- |
+| DSP Application | `APP/Main.c`、`APP/Interrupt.c` | 分别在主循环和定时 ISR 中触发数据刷新，不直接访问 XINTF 地址 |
+| DSP FPGA Driver | `APP/Comm/drv_fpga.c/.h` | 维护 Main/ISR 上下行数据镜像，封装物理基址、寄存器地址和 `volatile` 读写 |
+| DSP XINTF HAL | `DSP_common/DSP2833x_Xintf.c/.h` | 配置 XINTF Zone 6 时序、总线宽度和 XINTF GPIO |
+| FPGA Bus Bridge | `fpga_proj_v3/rtl/dsp_xintf_ctrl.v` | 同步 DSP 读写控制，生成写脉冲，控制读数据三态输出，并在寄存器与 RAM 间分流 |
+| FPGA Integration | `fpga_proj_v3/rtl/top.v`、`al_ip/reg_ram_ip.v`、`constrain/io.adc` | 连接顶层管脚、FPGA 业务信号和 1024×32 双口 RAM |
+
+`fpga_proj_v3_boot` 使用另一套 DSP 通信接口，当前不属于本节所述 APP XINTF 协议；若后续需要兼容，应单独核对其地址和时序。
+
+### 8.2 物理接口与初始化
+
+- DSP 驱动以 XINTF Zone 6 基地址 `0x100000` 访问 FPGA，数据类型为 `Uint32`。物理数据总线为 XD0–XD31。
+- FPGA 顶层当前只引入 XA1–XA7，形成 7-bit 逻辑地址。C28x 以 16-bit word 寻址，`Uint32 *` 递增会跨过两个 word；在 XA0 未连入 FPGA 的前提下，驱动的 `Uint32` 偏移与 FPGA 逻辑地址对应。
+- 写选通使用 XWE0，读选通预期使用 XRD。FPGA 顶层没有 XREADY、XRNW 或 Zone chip-select 输入，因此当前协议完全依赖固定读写时序和 XRD/XWE0。
+- `Main.c` 先调用 `InitXintf()`，再进入 `InitUserPara()`。`InitXintf()` 配置 Zone 6 读写 lead/active/trail 为 3/7/3，不使用 XREADY，关闭写缓冲，并初始化 32 位数据 GPIO 与地址 GPIO。
+- `FpgaDrvInit()` 只清零 DSP 侧的通信数据镜像，不配置 XINTF 外设；不得将它与 `InitXintf()` 的职责混合。
+
+### 8.3 运行期数据流
+
+```mermaid
+flowchart LR
+    Main["DSP Main loop"] --> MainAPI["FpgaMainRead/WriteUpdate"]
+    ISR["DSP timer ISR"] --> ISRAPI["FpgaISRRead/WriteUpdate"]
+    MainAPI --> Driver["drv_fpga.c private XINTF access"]
+    ISRAPI --> Driver
+    Driver --> Bus["XA1..7 / XD0..31 / XRD / XWE0"]
+    Bus --> Bridge["dsp_xintf_ctrl"]
+    Bridge --> Regs["FPGA control/status registers"]
+    Bridge --> Ram["FPGA dual-port RAM"]
+```
+
+- 主循环每轮先调用 `FpgaMainReadUpdate()`，在网络、EEPROM 和版本处理后调用 `FpgaMainWriteUpdate()`。
+- 定时 ISR 先调用 `FpgaISRReadUpdate()`，执行 ADC/示波器处理后调用 `FpgaISRWriteUpdate()`。Main 与 ISR 的地址区域必须隔离，避免实时数据与后台配置互相覆盖。
+- `drv_fpga.h` 只对外暴露数据结构、数据镜像和四个刷新接口。`FPGA_BASE_ADDR`、`DataW`、`DataR` 和实际地址定义必须留在 `drv_fpga.c` 内，其他模块不得绕过驱动直接访问 FPGA。
+- FPGA 将 XRD/XWE0 各经两级触发器同步到 150 MHz 域。写通路在同步后的 XWE0 上升沿生成单周期脉冲；读通路仅在同步后的 XRD 有效期间驱动双向数据总线，其余时间为高阻。
+
+### 8.4 地址空间与当前实现状态
+
+同一逻辑地址的读、写方向可以对应不同寄存器。以下表格同时区分软件规划与 FPGA 已实现逻辑：
+
+| DSP 逻辑地址 | 规划用途 | DSP 侧当前使用 | FPGA 侧当前状态 |
+| ---: | --- | --- | --- |
+| `0` | Main 寄存器区起点 | 写 `ctrl_reg`；读 `fpga_info` | 已译码地址 0；但写出的 `dsp_wr_data1` 在 `top.v` 中未连接到业务逻辑 |
+| `1–49` | Main 保留寄存器 | 未使用 | 未译码 |
+| `50` | ISR 寄存器区起点 | 写 `current_setpoint`；读 `sample_done_flag` | 未译码；当前读返回 0，写入被忽略 |
+| `51–99` | ISR 保留寄存器 | 未使用 | 未译码 |
+| `100–199` | 保留，不得分配给 Main/ISR | 未使用 | 未译码 |
+| `200 + offset` | FPGA RAM 窗口 | 仅有内部基地址规划，尚无公开 RAM 读写流程 | RTL 以 200 为读写阈值，但当前地址宽度使该区域不可达 |
+
+RAM 的设计意图是将 DSP 读窗口映射到 RAM `0–511`，DSP 写窗口映射到 RAM `512–1023`，使 FPGA→DSP 和 DSP→FPGA 数据区隔离。这一分区目前仍是未完成设计，不应作为可用 ABI。
+
+### 8.5 时序、CDC 与总线所有权
+
+- DSP 写周期内由 DSP 驱动 XD0–XD31；FPGA 只在读选通有效期间驱动该总线。新增逻辑不得在写周期或空闲期驱动总线，否则会造成硬件冲突。
+- FPGA 当前只同步了 XRD/XWE0，没有同步或锁存地址与数据。因此正确采样依赖 DSP 的 lead/active/trail 窗口覆盖两级同步和后续处理延迟。修改 DSP XINTF 时序或 FPGA 系统时钟时，必须重新做时序仿真和实机测试。
+- XREADY 当前未使用，总线不能因 FPGA 或 RAM 尚未就绪而伸长 DSP 周期。`reg_ram_ip` 配置为同步、带输出寄存器的 RAM，其读延迟必须被桥接时序明确吸收；当前实现尚未形成经验证的 RAM 读通路。
+- `constrain/timing.sdc` 当前只定义外部晶振及 PLL 派生时钟，没有对异步 XINTF 输入/输出建立完整约束。CDC 标记只能保护控制信号同步器，不等价于整个异步总线已满足时序。
+
+### 8.6 已知缺口与完成条件
+
+以下项目可从当前源码直接确认，在它们闭环前，不应宣称 XINTF 寄存器/RAM 通信已完整可用：
+
+1. DSP 的 `InitXintf16Gpio()` 已配置 XWE0，但未看到 GPIO39/XRD 的 XINTF 复用配置；XZCS6 也被注释。需根据原理图确认 XRD 和片选的实际连法，再补齐 GPIO 与 FPGA 顶层接口。
+2. FPGA 仅有 7-bit 地址输入，可表示 `0–127`，无法命中阈值 200。同时 `dsp_xintf_ctrl.o_ram_addr` 为 7 bit，RAM IP 地址为 10 bit，`RAM_DSP_WR_BASE = 512` 会被截断或别名。实现 RAM 前必须统一 DSP 地址定义、物理引脚数、桥接宽度和 RAM 深度。
+3. FPGA 寄存器译码当前只有地址 0；ISR 地址 50 及后续 Main/ISR 字段尚未实现。新增字段时必须同步修改 DSP 地址定义、FPGA `case` 译码和本文档地址表。
+4. `dsp_wr_data1` 在 FPGA 顶层例化中未连出，因此地址 0 的 DSP 写入当前不会驱动业务功能。RAM B 口同样未接入 FPGA 业务逻辑。
+5. `top.v` 对 `fpga_info` 的 `[31:16]` 和 `[16:0]` 赋值在 bit 16 重叠，需确认预期字段宽度后改成不重叠的唯一驱动。
+
+完成该子系统时，验证至少应包含：DSP 全量编译；FPGA lint/综合/时序检查；寄存器地址 0 和 50 的双向读写仿真；RAM 起始、分区边界和最后地址测试；连续读写、Main/ISR 交错以及复位中断测试；最后再用逻辑分析仪核对 XRD/XWE0、地址、数据与 FPGA 150 MHz 采样关系。
+
+### 8.7 扩展规则
+
+- Main 寄存器只能分配在 `[0, 50)`，ISR 寄存器只能分配在 `[50, 100)`；`[100, 200)` 保留，RAM 使用经确认后的独立窗口。
+- 寄存器地址是 DSP/FPGA 跨芯片 ABI。任何新增、移动、改宽或改变读写方向都必须成对更新 DSP 驱动和 FPGA 译码，不得只修改一侧。
+- Main/ISR 代码只能通过四个 `Fpga*Update()` 接口交换寄存器数据。RAM 后续应建立独立、有边界检查的块读写接口，不得向业务层重新暴露 `DataW/DataR`。
+- ISR 刷新必须保持固定且可界定的执行时间；不得在 ISR 中执行可变长度 RAM 传输、轮询等待或带重试的访问。
+- 如果引入 XREADY、片选、更宽地址总线或异步 FIFO，应先固化物理连接和时序协议，再扩展寄存器与 RAM 映射。

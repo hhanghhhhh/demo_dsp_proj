@@ -1,0 +1,381 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dD:/05-work/17_dvdstest/test_source_code/fpga/prj/simulation/modelsim
+vAdder
+!s110 1749631381
+!i10b 1
+!s100 >VCjZDWTj7j7?X?d97J]b3
+I>hJK22KTD^_OCChOB>g^Q3
+Z0 VDg1SIo80bB@j0V0VzS_@n1
+Z1 dD:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/testbench
+w1682062326
+8D:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/al_ip/MultiplierAdder.v
+FD:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/al_ip/MultiplierAdder.v
+L0 5
+Z2 OL;L;10.4;61
+r1
+!s85 0
+31
+!s108 1749631381.198000
+!s107 D:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/al_ip/MultiplierAdder.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/al_ip/MultiplierAdder.v|
+!i113 0
+Z3 o-work work -L D:/04-software/modelsim10.4/examples/xilinx
+n@adder
+vADJUST_RALAY
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 JMKA?KBOe]XW_GEnb^4e@2
+IE>Tken1FCX6?KHcbWkPZc1
+Z4 dD:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1/rtl/testbench
+w1724894601
+8D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1/rtl/ADJUST_RALAY.v
+FD:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1/rtl/ADJUST_RALAY.v
+Z5 L0 10
+R2
+!s108 1724894728.849000
+!s107 D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1/rtl/ADJUST_RALAY.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1/rtl/ADJUST_RALAY.v|
+!i113 0
+Z6 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+n@a@d@j@u@s@t_@r@a@l@a@y
+vclk_pulse_generate
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 `7B8HeHcijPY]a9?IbhOO0
+In=ATnPI3:fzUli<za=i1z3
+R1
+w1745572249
+8D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/common/clk_pulse_generate.v
+FD:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/common/clk_pulse_generate.v
+R5
+R2
+!s108 1745574072.229000
+!s107 D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/common/clk_pulse_generate.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/common/clk_pulse_generate.v|
+!i113 0
+R3
+vdivider_avg
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 9a?hLnJCD?YoGV061H7^>0
+ImUR[[PhlAJ6Hj[AP39[hS0
+R4
+w1732707054
+8D:/05-work/04_HVyuanbiao/00_FPGA_proj_1_3/al_ip/divider_avg_gate.v
+FD:/05-work/04_HVyuanbiao/00_FPGA_proj_1_3/al_ip/divider_avg_gate.v
+L0 5
+R2
+!s108 1732707902.059000
+!s107 D:/05-work/04_HVyuanbiao/00_FPGA_proj_1_3/al_ip/divider_avg_gate.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/04_HVyuanbiao/00_FPGA_proj_1_3/al_ip/divider_avg_gate.v|
+!i113 0
+R6
+vfirsrt_low_filter
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 kTO^=f32R;AWWlYj@F<OZ1
+IZcD:MSo50=PHKY7PLQ_[h3
+R1
+w1749641624
+8D:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/rtl/firsrt_low_filter.v
+FD:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/rtl/firsrt_low_filter.v
+R5
+R2
+!s108 1749642298.149000
+!s107 D:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/rtl/firsrt_low_filter.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/rtl/firsrt_low_filter.v|
+!i113 0
+R3
+vfirst_low_filter
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 [W^QTmTfniZn3YS82ZQnn1
+I?<l^6FC_zamOcf=_c>L1[3
+R1
+w1749643318
+8D:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/rtl/first_low_filter.v
+FD:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/rtl/first_low_filter.v
+Z7 L0 12
+R2
+!s108 1749691248.989000
+!s107 D:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/rtl/first_low_filter.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/rtl/first_low_filter.v|
+!i113 0
+R3
+vHH_tb
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 6OZU[9CPkl7JOT31<njel3
+INYU7fBgFg8JQnfB476^j<1
+R1
+w1749691246
+8D:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/rtl/test_bench/low_filter_tb.v
+FD:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/rtl/test_bench/low_filter_tb.v
+Z8 L0 11
+R2
+!s108 1749691248.795000
+!s107 D:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/rtl/test_bench/low_filter_tb.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/rtl/test_bench/low_filter_tb.v|
+!i113 0
+R3
+n@h@h_tb
+vkey_detect
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 Q1DB@RIEX1Gc16[7N=kSK3
+I^E6GZ7VUKT6GIl<kNoQTf1
+R1
+w1745574068
+8D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/key_detect.v
+FD:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/key_detect.v
+R5
+R2
+!s108 1745574072.333000
+!s107 D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/key_detect.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/key_detect.v|
+!i113 0
+R3
+vkey_detect_tb
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 b^XMhTf<SRFX8=Zc31]J:0
+Ic:bncDe7JcKTCUVhD6BTA0
+R1
+w1745573887
+8D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/testbench/key_detect_tb.v
+FD:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/testbench/key_detect_tb.v
+R7
+R2
+!s108 1745574072.279000
+!s107 D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/testbench/key_detect_tb.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/testbench/key_detect_tb.v|
+!i113 0
+R3
+vknob_detect
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 nTlE3CG`bD0LJ`JFQ6ziM1
+IXzJSYh94amU1fjbFj6bc`3
+R1
+w1747745596
+8D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/knob_detect.v
+FD:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/knob_detect.v
+R5
+R2
+!s108 1747745753.073000
+!s107 D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/knob_detect.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/knob_detect.v|
+!i113 0
+R3
+vknob_detect_tb
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 Tf`NXoOmL4h@_Gb]Z?Ual2
+IggIkM>9f]74`GFBPX]69P3
+R1
+w1747745750
+8D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/testbench/knob_detect_tb.v
+FD:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/testbench/knob_detect_tb.v
+R7
+R2
+!s108 1747745753.121000
+!s107 D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/testbench/knob_detect_tb.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/testbench/knob_detect_tb.v|
+!i113 0
+R3
+vMEMOR_SAMPLE
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 hbNP1gKUz;8]ED_^mkOmK0
+Img5;n>;A=6PN1BiUWKdSR3
+Z9 dD:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/rtl/testbench
+w1762754442
+8D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/rtl/MEMOR_SAMPLE.v
+FD:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/rtl/MEMOR_SAMPLE.v
+R8
+R2
+!s108 1762754581.602000
+!s107 D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/rtl/MEMOR_SAMPLE.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/rtl/MEMOR_SAMPLE.v|
+!i113 0
+R3
+n@m@e@m@o@r_@s@a@m@p@l@e
+vmulti_add
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 Yz;3UR85KZCcnEY_l>QR60
+I^HmQ<z21^Pg:YY7GEWe_H1
+R1
+w1749632353
+8D:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/al_ip/multi.v
+FD:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/al_ip/multi.v
+L0 5
+R2
+!s108 1749691248.897000
+!s107 D:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/al_ip/multi.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/11_diyayuanbiao/02_FPGA_version3_testfilter/al_ip/multi.v|
+!i113 0
+R3
+vposedge_detect
+!s110 1745572255
+!i10b 1
+!s100 ?LCTgm5XQVBM:Eh12HObH3
+ILj4<I9VFGOjzZzJLRFf]e0
+R0
+R1
+w1745572161
+8D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/common/posedge_detect11.v
+FD:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/common/posedge_detect11.v
+L0 1
+R2
+r1
+!s85 0
+31
+!s108 1745572255.261000
+!s107 D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/common/posedge_detect11.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_screen/rtl/common/posedge_detect11.v|
+!i113 0
+R3
+vram_samp_data
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 h^fQ9Wj1objEKcj[CX<9c0
+IC:EKzB5IMogP>ZLa>ZbFH0
+R9
+w1762496016
+8D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/al_ip/ram_samp_data.v
+FD:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/al_ip/ram_samp_data.v
+L0 14
+R2
+!s108 1762754581.654000
+!s107 D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/al_ip/ram_samp_data.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/al_ip/ram_samp_data.v|
+!i113 0
+R3
+vRUNNING_AVG
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 mfj^:4zW3gFj^X0mH2=M[3
+IYO:b8kGCl5KWhK_[2h2nM3
+R4
+w1732707889
+8D:/05-work/04_HVyuanbiao/00_FPGA_proj_1_3/rtl/RUNNING_AVG.v
+FD:/05-work/04_HVyuanbiao/00_FPGA_proj_1_3/rtl/RUNNING_AVG.v
+R5
+R2
+!s108 1732707901.991000
+!s107 D:/05-work/04_HVyuanbiao/00_FPGA_proj_1_3/rtl/RUNNING_AVG.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/04_HVyuanbiao/00_FPGA_proj_1_3/rtl/RUNNING_AVG.v|
+!i113 0
+R6
+n@r@u@n@n@i@n@g_@a@v@g
+vtb_MEMOR_SAMPLE
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 NoTU_ZA7YQCGm1kPZ7zif1
+II:I4Aj0ojY2=`^m17i7l@3
+R9
+w1762754576
+8D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/rtl/testbench/tb_memory_sample.v
+FD:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/rtl/testbench/tb_memory_sample.v
+L0 3
+R2
+!s108 1762754581.547000
+!s107 D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/rtl/testbench/tb_memory_sample.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/rtl/testbench/tb_memory_sample.v|
+!i113 0
+R3
+ntb_@m@e@m@o@r_@s@a@m@p@l@e
+vTEMP_ADC_CTRL
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 iSSm>8DDGl;hfKC5D[3gS1
+IF6<`1g4L?2d282FKK9fnd2
+R4
+w1734681866
+8D:/05-work/14_HVSMU_version2/02_FPGA/HVSUM_version2/rtl/TEMP_ADC_CTRL.v
+FD:/05-work/14_HVSMU_version2/02_FPGA/HVSUM_version2/rtl/TEMP_ADC_CTRL.v
+R5
+R2
+!s108 1735008981.069000
+!s107 D:/05-work/14_HVSMU_version2/02_FPGA/HVSUM_version2/rtl/TEMP_ADC_CTRL.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/14_HVSMU_version2/02_FPGA/HVSUM_version2/rtl/TEMP_ADC_CTRL.v|
+!i113 0
+R6
+n@t@e@m@p_@a@d@c_@c@t@r@l
+vTEMP_ADC_SPI_DRV
+R0
+r1
+!s85 0
+31
+!i10b 1
+!s100 lfE[D[0UA><mBXGZINAY_1
+Id]EzBlaEKLj8cL7h4=;QH0
+R4
+w1735008976
+8D:/05-work/14_HVSMU_version2/02_FPGA/HVSUM_version2/rtl/TEMP_ADC_SPI_DRV.v
+FD:/05-work/14_HVSMU_version2/02_FPGA/HVSUM_version2/rtl/TEMP_ADC_SPI_DRV.v
+R7
+R2
+!s108 1735008981.000000
+!s107 D:/05-work/14_HVSMU_version2/02_FPGA/HVSUM_version2/rtl/TEMP_ADC_SPI_DRV.v|
+!s90 -reportprogress|300|-work|work|-vopt|-stats=none|D:/05-work/14_HVSMU_version2/02_FPGA/HVSUM_version2/rtl/TEMP_ADC_SPI_DRV.v|
+!i113 0
+R6
+n@t@e@m@p_@a@d@c_@s@p@i_@d@r@v

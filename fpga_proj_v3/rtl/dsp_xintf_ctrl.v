@@ -41,22 +41,25 @@ localparam  RAM_DSP_WR_BASE      =   512;
 // localparam  RAM_DSP_RD_BASE      =   0;
 // localparam  RAM_DSP_WR_BASE      =   0;
 
-reg [ 1:0]   dsp_rd_n_r         ;
-reg [ 1:0]   dsp_wr_n_r         ;
+(* async_reg = "true" *) reg [ 1:0]   dsp_rd_n_r         ;
+(* async_reg = "true" *) reg [ 1:0]   dsp_wr_n_r         ;
 wire         dsp_wr_pulse       ;
 wire         dsp_rd_active      ;
 reg [31:0]   dsp_rd_data        ;
 
 //*************** Main Code ***********************//
-assign dsp_wr_pulse = (dsp_wr_n_r[1] == 1'b0) && (dsp_wr_n_r[0] == 1'b1);
-assign dsp_rd_active = (dsp_rd_n_r[1] == 1'b0);
+assign dsp_wr_pulse = !dsp_wr_n_r[1] && dsp_wr_n_r[0];
+assign dsp_rd_active = !dsp_rd_n_r[1];
 assign io_dsp_data = dsp_rd_active ? dsp_rd_data : 32'bz;
 
 // ram 接口
 // 地址先减去 dsp 侧的偏移，再加上实际用的 ram 地址偏移
-assign o_ram_addr = dsp_rd_active ? (i_dsp_addr - DSP_RD_ADDR_TH + RAM_DSP_RD_BASE) : (i_dsp_addr - DSP_WR_ADDR_TH + RAM_DSP_WR_BASE);
+assign o_ram_addr = dsp_rd_active 
+                    ? (i_dsp_addr - DSP_RD_ADDR_TH + RAM_DSP_RD_BASE) 
+                    : (i_dsp_addr - DSP_WR_ADDR_TH + RAM_DSP_WR_BASE);
 assign o_ram_wdata = io_dsp_data;
-assign o_ram_ce   = (dsp_wr_pulse && (i_dsp_addr >= DSP_WR_ADDR_TH)) || (dsp_rd_active && (i_dsp_addr >= DSP_RD_ADDR_TH));
+assign o_ram_ce   = (dsp_wr_pulse && (i_dsp_addr >= DSP_WR_ADDR_TH)) 
+                    || (dsp_rd_active && (i_dsp_addr >= DSP_RD_ADDR_TH));
 assign o_ram_we = dsp_wr_pulse && (i_dsp_addr >= DSP_WR_ADDR_TH);
 
 //================================================================
