@@ -223,6 +223,16 @@ void InitXintf16Gpio()
      GpioCtrlRegs.GPBMUX1.bit.GPIO46 = 3;  // XA6
      GpioCtrlRegs.GPBMUX1.bit.GPIO47 = 3;  // XA7
 
+     GpioCtrlRegs.GPCMUX2.bit.GPIO80 = 3;  // XA8
+     GpioCtrlRegs.GPCMUX2.bit.GPIO81 = 3;  // XA9
+     GpioCtrlRegs.GPCMUX2.bit.GPIO82 = 3;  // XA10
+     GpioCtrlRegs.GPCMUX2.bit.GPIO83 = 3;  // XA11
+     GpioCtrlRegs.GPCMUX2.bit.GPIO84 = 3;  // XA12
+     GpioCtrlRegs.GPCMUX2.bit.GPIO85 = 3;  // XA13
+     GpioCtrlRegs.GPCMUX2.bit.GPIO86 = 3;  // XA14
+     GpioCtrlRegs.GPCMUX2.bit.GPIO87 = 3;  // XA15
+     GpioCtrlRegs.GPBMUX1.bit.GPIO39 = 3;  // XA16
+
 
 //   GpioCtrlRegs.GPBMUX1.bit.GPIO34 = 3;  // XREADY
 //	 GpioCtrlRegs.GPBMUX1.bit.GPIO35 = 3;  // XRNW

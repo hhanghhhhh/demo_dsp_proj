@@ -72,6 +72,10 @@ void FpgaMainWriteUpdate(void);  // Main Loop 写刷新
 void FpgaISRReadUpdate(void);    // ISR 读刷新
 void FpgaISRWriteUpdate(void);   // ISR 写刷新
 
+// FPGA RAM 块访问，只允许在 Main/后台上下文使用。
+Uint16 FpgaRamRead(Uint16 offset, Uint32 *data);
+Uint16 FpgaRamWrite(Uint16 offset, Uint32 data);
+
 
 
 

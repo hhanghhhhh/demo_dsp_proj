@@ -12,6 +12,9 @@
 #include "Version.h"
 #include "task_scope.h"
 
+// XINTF 临时验证代码；验证完成后删除本 include 和两个调用点。
+#include "Comm/xintf_validation_test.c"
+
 
 extern void HH_test_main();
 extern void LED_Ctrl();
@@ -76,6 +79,7 @@ void main(void)
 
     //USER Init
     InitUserPara();
+    XintfValidationInit();
 
 
     /* 示波器模块初始化 */
@@ -91,6 +95,7 @@ void main(void)
     while (1)
     {
         FpgaMainReadUpdate();
+        XintfValidationProcess();
 
         for(index = 0; index < SOCKET_NUM_USE; index++)
         {

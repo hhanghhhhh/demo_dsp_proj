@@ -10,6 +10,7 @@
 #define FPGA_MAIN_ADDR_BASE         0U
 #define FPGA_ISR_ADDR_BASE          50U
 #define FPGA_RAM_ADDR_BASE          200U
+#define FPGA_RAM_WORD_COUNT         512U
 
 // Main 读写通道使用各自的 FPGA 读写寄存器空间。
 #define FPGA_MAIN_CTRL_REG_ADDR     (FPGA_MAIN_ADDR_BASE + 0U)
@@ -57,4 +58,26 @@ void FpgaISRWriteUpdate(void)
 void FpgaISRReadUpdate(void)
 {
     st_fpga_isr_rd.sample_done_flag = DataR(FPGA_ISR_SAMPLE_DONE_ADDR);
+}
+
+Uint16 FpgaRamRead(Uint16 offset, Uint32 *data)
+{
+    if((data == 0) || (offset >= FPGA_RAM_WORD_COUNT))
+    {
+        return 0U;
+    }
+
+    *data = DataR(FPGA_RAM_ADDR(offset));
+    return 1U;
+}
+
+Uint16 FpgaRamWrite(Uint16 offset, Uint32 data)
+{
+    if(offset >= FPGA_RAM_WORD_COUNT)
+    {
+        return 0U;
+    }
+
+    DataW(FPGA_RAM_ADDR(offset), data);
+    return 1U;
 }
