@@ -81,3 +81,61 @@
 - Communication
 - FPGA Interface
 - ADC / Sampling / Control Data Path
+
+## 7. EEPROM Parameter Storage 与 Boot / APP Handoff
+
+### 7.1 职责与分层
+
+EEPROM 子系统同时服务于 APP 业务参数持久化，以及 APP 与 Boot 之间的启动信息交接。分层关系如下：
+
+| 层级 | APP 工程 | Boot 工程 | 职责 |
+| --- | --- | --- | --- |
+| I2C Driver | `drv_Eeprom.c/.h` | `APP/Comm/drv_Eeprom.c/.h` | 以 EEPROM byte 为单位完成底层 I2C 读写，并上报总线忙、NACK 等错误 |
+| Storage Service | `app_eeprom_config.c/.h`、`app_boot_eeprom.c/.h` | `task_boot_eeprom.c/.h` | C28x word 与 EEPROM byte 转换；管理块格式、默认值、版本、首尾标记和校验和 |
+| Application / Task | `task_eeprom_param.c/.h` | `task_eeprom_download.c/.h` | 在持久化结构与运行期 Modbus 数据之间同步；控制下载标志以及 Boot/APP 跳转 |
+| Startup Integration | `drv_GlobalVar.c`、`Main.c` | `drv_GlobalVar.c`、`Main.c` | 保证 I2C、EEPROM 参数、网络和主循环的初始化/处理顺序 |
+
+底层驱动不理解业务结构；块格式和校验属于 Storage Service；命令识别、运行期变量同步和跳转决策属于 Task/Application。新增参数时应沿此边界扩展，不应让底层 I2C 驱动依赖 Modbus 或 Boot 业务。
+
+### 7.2 EEPROM 布局与共享协议
+
+| 区域 | 起始 EEPROM byte 地址 | 使用方 | 作用 |
+| --- | ---: | --- | --- |
+| Boot 共享参数块 | `0x0000` | APP + Boot | 保存网络 IP 和下载标志，作为两个固件之间的持久化交接区 |
+| APP 配置块 | `0x0100` | APP | 保存保护参数、系数使能和 28 组 K/B 校准系数 |
+
+C28x 中本工程按 `Uint16` word 管理结构体；落盘时每个 word 拆成两个 EEPROM byte，固定为低字节在前。APP 配置块通过固定 512-word raw payload 保持存储占用和布局稳定，并按最多 64 word（128 byte）分段读写。
+
+两个块都采用“固定标记 + 版本 + payload + 尾标记 + 累加校验”的自描述格式。Boot 共享块在 APP 与 Boot 中有各自的类型声明，但其字段顺序、常量、字节序和校验范围必须完全一致；它们共同构成跨固件持久化 ABI。
+
+### 7.3 生命周期与数据流
+
+APP 上电流程：
+
+1. `Main.c` 先初始化 I2C GPIO 和 I2C 外设，再进入用户参数初始化。
+2. `InitUserPara()` 先初始化运行期数据，再调用 `EepromParam_Init()`。
+3. 共享块和 APP 配置块分别读取、校验；读取或校验失败时使用默认值。共享块校验失败时会重建格式并写回，APP 配置块当前只加载默认值。
+4. `task_eeprom_param.c` 将 IP、保护参数和校准系数同步到 Modbus 运行期结构。
+5. EEPROM 初始化必须早于 `Init_W5500()`，因为 W5500 网络初始化依赖持久化 IP。
+
+APP 运行期流程：
+
+- 主循环调用 `EepromParam_Process()` 处理参数保存命令。
+- IP 更新写入 Boot 共享块；保护/系数更新先从运行期结构同步到 APP 配置块，校验 K 系数范围后再整块保存。
+- APP 请求进入 Boot 时，先把共享块下载标志置为 `11` 并保存，再跳转到 Boot 入口 `0x33FFF6`。
+
+Boot 上电与返回 APP 流程：
+
+1. Boot 完成 I2C 初始化后，`InitEeromPara_Downloads()` 只初始化一次共享参数块，并把其中 IP 同步给 Boot 网络栈。
+2. Boot 同时检查下载标志和 APP 起始地址 `0x320000` 的内容：下载标志不是 `11` 且 APP 非空时直接跳转 APP；否则留在 Boot 等待升级。
+3. 升级完成或收到跳转 APP 命令时，Boot 将下载标志清零并写回 EEPROM，然后关闭网络 socket 并跳转 APP。
+
+### 7.4 关键约束与扩展规则
+
+- **共享格式兼容性：** 修改 Boot 共享结构、magic、version、地址、字节序或校验范围时，必须同步修改 APP 和 Boot；不兼容修改应升级版本并明确迁移策略。
+- **地址隔离：** Boot 共享块与 APP 配置块不得重叠；新增持久化区域前应按实际 EEPROM byte 占用重新核算边界。
+- **初始化顺序：** 必须先初始化 I2C，再读取 EEPROM；必须先将 EEPROM IP 同步到运行期变量，再初始化 W5500。
+- **上下文限制：** 当前 EEPROM I2C 驱动使用阻塞轮询，不应从 ISR 或实时控制路径调用。轮询当前没有超时恢复，I2C 外设或总线异常可能造成长期阻塞。
+- **Watchdog：** EEPROM 多页写入和下载标志写入可能超过看门狗周期，当前 APP/Boot 在这些保存路径外使用 `DisableDog()` / `EnableWDog()` 包裹。新增耗时写路径必须沿用该约束，并保证所有返回路径最终恢复看门狗。
+- **失败语义：** 读取、格式校验与写入状态应继续向上层传播；运行期数据不能在未校验的 EEPROM 内容上建立。
+- **参数扩展：** APP 业务参数优先增加到 `APP_EEPROM_USER_DATA` 或其保留区，并保持不超过固定 raw payload；改变持久化解释时应升级配置版本。Boot 不读取 APP 专用配置块。
