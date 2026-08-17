@@ -10,6 +10,7 @@ Debug/
 *_Runs/
 *.rpt
 *.tsm
+*.log
 
 
 

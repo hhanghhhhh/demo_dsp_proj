@@ -1,0 +1,114 @@
+set_pin_assignment	{ clk_external }	{ LOCATION = D15; }
+set_pin_assignment	{ xintf_dsp_addr[0] }	{ LOCATION = U17; }
+set_pin_assignment	{ xintf_dsp_addr[1] }	{ LOCATION = U18; }
+set_pin_assignment	{ xintf_dsp_addr[2] }	{ LOCATION = U16; }
+set_pin_assignment	{ xintf_dsp_addr[3] }	{ LOCATION = V17; }
+set_pin_assignment	{ xintf_dsp_addr[4] }	{ LOCATION = T11; }
+set_pin_assignment	{ xintf_dsp_addr[5] }	{ LOCATION = L18; }
+set_pin_assignment	{ xintf_dsp_addr[6] }	{ LOCATION = M18; }
+set_pin_assignment	{ xintf_dsp_data[0] }	{ LOCATION = F14; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[10] }	{ LOCATION = A18; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[11] }	{ LOCATION = H14; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[12] }	{ LOCATION = G14; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[13] }	{ LOCATION = E17; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[14] }	{ LOCATION = D17; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[15] }	{ LOCATION = K13; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[16] }	{ LOCATION = J13; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[17] }	{ LOCATION = H17; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[18] }	{ LOCATION = G17; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[19] }	{ LOCATION = J14; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[1] }	{ LOCATION = D12; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[20] }	{ LOCATION = H15; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[21] }	{ LOCATION = C16; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[22] }	{ LOCATION = C17; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[23] }	{ LOCATION = E18; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[24] }	{ LOCATION = D18; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[25] }	{ LOCATION = G18; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[26] }	{ LOCATION = F18; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[27] }	{ LOCATION = J17; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[28] }	{ LOCATION = J18; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[29] }	{ LOCATION = K15; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[2] }	{ LOCATION = D13; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[30] }	{ LOCATION = J15; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[31] }	{ LOCATION = K16; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[3] }	{ LOCATION = B16; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[4] }	{ LOCATION = B17; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[5] }	{ LOCATION = A15; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[6] }	{ LOCATION = A16; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[7] }	{ LOCATION = A13; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[8] }	{ LOCATION = A14; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_data[9] }	{ LOCATION = B18; PULLTYPE = PULLDOWN; }
+set_pin_assignment	{ xintf_dsp_wr_n }	{ LOCATION = U12; }
+set_pin_assignment	{ xintf_dsp_rd_n }	{ LOCATION = V10; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

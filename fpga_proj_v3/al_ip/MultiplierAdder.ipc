@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<DSP_MACRO_Config>
+    <CFG>
+        <A_WIDTH>54</A_WIDTH>
+        <B_WIDTH>2</B_WIDTH>
+        <CE>false</CE>
+        <EXP_INDEX>0</EXP_INDEX>
+        <EXP_STR>P=A+Z+P</EXP_STR>
+        <IS_ABREG>false</IS_ABREG>
+        <IS_AREG>true</IS_AREG>
+        <IS_BREG>false</IS_BREG>
+        <IS_MREG>false</IS_MREG>
+        <IS_OPREG1>false</IS_OPREG1>
+        <IS_OPREG2>false</IS_OPREG2>
+        <IS_OPREG3>false</IS_OPREG3>
+        <IS_PWREG>true</IS_PWREG>
+        <IS_YREG>false</IS_YREG>
+        <IS_ZREG>true</IS_ZREG>
+        <PIPE>0</PIPE>
+        <P_WIDTH>54</P_WIDTH>
+        <RST>false</RST>
+        <SYNC_RST>false</SYNC_RST>
+        <TYPE_EXP>ACC</TYPE_EXP>
+        <Y_WIDTH>2</Y_WIDTH>
+        <Z_WIDTH>54</Z_WIDTH>
+    </CFG>
+    <GeneralConfig>
+        <Device>PH1A100GCG324</Device>
+        <Type>DSP_MACRO</Type>
+        <create_VHDL>true</create_VHDL>
+        <inst>Adder</inst>
+    </GeneralConfig>
+    <GeneratedFiles>
+        <Verilog Enable="true">MultiplierAdder.v</Verilog>
+    </GeneratedFiles>
+</DSP_MACRO_Config>

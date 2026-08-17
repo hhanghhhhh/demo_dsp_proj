@@ -1,0 +1,22 @@
+D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/al_ip/ram_samp_data.v {1 {vlog -work work -vopt -stats=none D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/al_ip/ram_samp_data.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module ram_samp_data
+
+Top level modules:
+	ram_samp_data
+
+} {} {}} D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/rtl/MEMOR_SAMPLE.v {1 {vlog -work work -vopt -stats=none D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/rtl/MEMOR_SAMPLE.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module MEMOR_SAMPLE
+
+Top level modules:
+	MEMOR_SAMPLE
+
+} {} {}} D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/rtl/testbench/tb_memory_sample.v {1 {vlog -work work -vopt -stats=none D:/05-work/02_yuanbiao/01_FPGAProject/03_test/03_adc_version3_1_test_newversion_xinzeng/rtl/testbench/tb_memory_sample.v
+Model Technology ModelSim SE-64 vlog 10.4 Compiler 2014.12 Dec  3 2014
+-- Compiling module tb_MEMOR_SAMPLE
+
+Top level modules:
+	tb_MEMOR_SAMPLE
+
+} {} {}}
