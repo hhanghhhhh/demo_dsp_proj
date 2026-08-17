@@ -1,0 +1,16 @@
+
+
+# Local builds
+build/
+
+Debug/
+.launches/
+
+# anlu fpga
+*_Runs/
+*.rpt
+*.tsm
+
+
+
+
