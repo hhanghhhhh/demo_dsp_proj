@@ -3,6 +3,9 @@
  * Delete this file and the include/calls in Main.c after validation.
  */
 
+#include "xintf_validation_test.h"
+#include "drv_fpga.h"
+
 #define XINTF_TEST_REG_VALUE        0x12345AA5UL
 #define XINTF_TEST_REG_EXPECTED     0xA55A5AA5UL
 #define XINTF_TEST_RAM_WORDS        512U

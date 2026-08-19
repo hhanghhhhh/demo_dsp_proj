@@ -5,16 +5,16 @@
 #include "task_eeprom_param.h"
 #include "app_boot_eeprom.h"
 #include "app_boot.h"
-#include "DSP2833x_Device.h"     // Header file Include File
-#include "DSP2833x_Examples.h"   // Examples Include File
+#include "DSP2833x_Device.h"   // Header file Include File
+#include "DSP2833x_Examples.h" // Examples Include File
 #include "drv_ModbusData.h"
 #include "drv_Fpga.h"
 #include "Version.h"
 #include "task_scope.h"
+#include "validation/task_scope_validation.h"
 
 // XINTF 临时验证代码；验证完成后删除本 include 和两个调用点。
-#include "Comm/xintf_validation_test.c"
-
+#include "validation/xintf_validation_test.h"
 
 extern void HH_test_main();
 extern void LED_Ctrl();
@@ -33,9 +33,9 @@ void PieInit(void)
     EDIS;
     PieCtrlRegs.PIECTRL.bit.ENPIE = 1;
     PieCtrlRegs.PIEIER1.bit.INTx7 = 1;
-    PieCtrlRegs.PIEIER9.bit.INTx7 = 1;  //CANbINT0
+    PieCtrlRegs.PIEIER9.bit.INTx7 = 1; // CANbINT0
     IER |= M_INT1;
-    IER |= M_INT9;    //CANbINT0
+    IER |= M_INT9; // CANbINT0
 }
 
 void TimerandIntCfg(void)
@@ -47,14 +47,13 @@ void TimerandIntCfg(void)
 }
 
 /***********************************************************************
-* Function Name : main
-* Arguments     : 
-* Returns       :
-* Description   : main function
-* Updated ID    : 
-***********************************************************************/
+ * Function Name : main
+ * Arguments     :
+ * Returns       :
+ * Description   : main function
+ * Updated ID    :
+ ***********************************************************************/
 Uint32 hh_main_cnt = 0;
-float32 test_scope_val = 700;
 void main(void)
 {
     Uint16 index = 0;
@@ -67,8 +66,8 @@ void main(void)
     InitGpio();
     InitSpiaGpio();
     InitSpi();
-//    InitECanGpio();
-//    InitECan();
+    //    InitECanGpio();
+    //    InitECan();
     InitI2CGpio();
     InitI2C();
     InitAdc();
@@ -77,17 +76,12 @@ void main(void)
     InitXintf();
     DELAY_US(0.4);
 
-    //USER Init
+    // USER Init
     InitUserPara();
     XintfValidationInit();
 
-
-    /* 示波器模块初始化 */
-    DSO_Init();
-    /* 通道0 配置 */
-    DSO_ConfigChannel(CH0_XXDATA, &test_scope_val, 10, 400);
-    // 开始采样
-    DSO_Start(CH0_XXDATA);
+    /* 数字示波器验证：采集 ISR 中产生的递增斜坡。 */
+    DSO_ValidationInit();
 
     TimerandIntCfg();
     EnableWDog();
@@ -97,20 +91,18 @@ void main(void)
         FpgaMainReadUpdate();
         XintfValidationProcess();
 
-        for(index = 0; index < SOCKET_NUM_USE; index++)
+        for (index = 0; index < SOCKET_NUM_USE; index++)
         {
-            //第一个参数为socket号，直接用0 1 2...完后排列  最多8个
-            do_tcp_server(index, index);   //网口模块
+            // 第一个参数为socket号，直接用0 1 2...完后排列  最多8个
+            do_tcp_server(index, index); // 网口模块
         }
 
-        //socket7用来做udp广播
+        // socket7用来做udp广播
         do_udp(7);
 
         CheckW5500Status();
 
-
-
-        if(mgmd_stSCIRx.jump_cmd == JUMP_TO_BOOT)
+        if (mgmd_stSCIRx.jump_cmd == JUMP_TO_BOOT)
         {
             mgmd_stSCIRx.jump_cmd = 0;
             // 将下载标志写入eeprom
@@ -120,9 +112,8 @@ void main(void)
             EnableWDog();
             load_boot();
         }
-		
-        EepromParam_Process();
 
+        EepromParam_Process();
 
         Run_Version();
         FpgaMainWriteUpdate();
@@ -132,7 +123,5 @@ void main(void)
 }
 
 /********************************************************************
-*			END, do not code behind this line!!                            *
-****************************************************************************/
-
-
+ *			END, do not code behind this line!!                            *
+ ****************************************************************************/
