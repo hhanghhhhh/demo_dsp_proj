@@ -10,24 +10,27 @@
 
 void TimerandIntCfg(void)
 {
-    /*================= PIE configuration ====================================*/
-        DINT;
-        InitPieCtrl();
-        IER = 0x0000;
-        IFR = 0x0000;
-        InitPieVectTable();
-        EALLOW;
-        PieVectTable.TINT0 = &INT6;
-        EDIS;
-        PieCtrlRegs.PIECTRL.bit.ENPIE = 1;
-        PieCtrlRegs.PIEIER1.bit.INTx7 = 1;
-        IER |= M_INT1;
-        EINT;
-        ERTM;
+    DINT;
+    DRTM;
 
-        ConfigCpuTimer(&CpuTimer0, 150, SYS_PERIOD);
+    InitPieCtrl();
+    IER = 0x0000;
+    IFR = 0x0000;
+    InitPieVectTable();
 
-        StartCpuTimer0();
+    EALLOW;
+    PieVectTable.TINT0 = &INT6;
+    EDIS;
+
+    /* 先清除挂起标志，再开放中断；Timer0 由 main 最后启动。 */
+    ConfigCpuTimer(&CpuTimer0, 150, SYS_PERIOD);
+    CpuTimer0Regs.TCR.bit.TIF = 1;
+    PieCtrlRegs.PIEIFR1.all = 0x0000;
+    PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
+
+    PieCtrlRegs.PIEIER1.bit.INTx7 = 1;
+    IER |= M_INT1;
+    PieCtrlRegs.PIECTRL.bit.ENPIE = 1;
 }
 
 
@@ -70,6 +73,7 @@ void main(void)
     TimerandIntCfg();
     EINT;
     ERTM;
+    StartCpuTimer0();
     while (1)
     {
         for(index = 0; index < SOCKET_NUM_USE; index++)
@@ -118,7 +122,7 @@ void main(void)
             // 清除下载标志，后续上电可直接进入 APP
             WriteEeromPara_Downloads(0);
             Close_All_Socket();
-            load_application();
+            Boot_ResetToApplication();
         }
 
         hh_main_cnt++;

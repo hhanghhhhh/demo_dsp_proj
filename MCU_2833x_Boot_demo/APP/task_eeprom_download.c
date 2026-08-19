@@ -9,6 +9,7 @@ Uint16 glb_download_flag = 0;
 
 typedef void (*pFunction)(void);
 #define APP_START_ADDR       ((Uint32)0x320000)
+#define BOOT_WDCR_FAST_RESET ((Uint16)0x0028)
 
 void BOOT_JumpToApplication(Uint32 Addr)
 {
@@ -22,6 +23,23 @@ void load_application(void)
     DINT;
     DRTM;
     BOOT_JumpToApplication(APP_START_ADDR);
+}
+
+void Boot_ResetToApplication(void)
+{
+    DINT;
+    DRTM;
+
+    /* 清零计数后开启最短周期看门狗，此后不再喂狗。 */
+    ServiceDog();
+    EALLOW;
+    SysCtrlRegs.WDCR = BOOT_WDCR_FAST_RESET;
+    EDIS;
+
+    for (;;)
+    {
+        /* 等待看门狗复位。 */
+    }
 }
 
 void InitEeromPara_Downloads(void)

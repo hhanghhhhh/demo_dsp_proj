@@ -13,21 +13,7 @@ extern void HH_test_INT(void);
 //定时器中断
 interrupt void INT6(void) 				
 {
-	DINT;
-
-    PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
     CpuTimer0Regs.TCR.bit.TIF=1;
-    CpuTimer0Regs.TCR.bit.TRB=1;
-
-    //enable can interrupt
-    IER |= M_INT9;
-    EINT;
-
-
-
-
-
-
 
     task_run_cnt++;
 	task_run_time = TIMER_CNT_MAX - NOW_TIMER_CNT;
@@ -35,6 +21,9 @@ interrupt void INT6(void)
 	{
 	    max_task_run_time = task_run_time;
 	}
+
+    /* 中断源处理完成后再释放 PIE Group 1。 */
+    PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
 	return;	
 }
 
