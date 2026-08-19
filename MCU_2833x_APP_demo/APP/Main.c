@@ -1,4 +1,5 @@
 #include "drv_GlobalVar.h"
+#include "Main.h"
 #include "Interrupt.h"
 #include "W5500/drv_Spi.h"
 #include "W5500/udp.h"
@@ -11,16 +12,13 @@
 #include "drv_Fpga.h"
 #include "Version.h"
 #include "task_scope.h"
-#include "validation/task_scope_validation.h"
 
-// XINTF 临时验证代码；验证完成后删除本 include 和两个调用点。
-#include "validation/xintf_validation_test.h"
 
-extern void HH_test_main();
-extern void LED_Ctrl();
+
 void Init_ADC_DMA(void);
 
-void PieInit(void)
+
+static void Main_InitInterruptController(void)
 {
     DINT;
     InitPieCtrl();
@@ -31,19 +29,29 @@ void PieInit(void)
     PieVectTable.TINT0 = &INT6;
     PieVectTable.ECAN0INTB = &ISR_CanbInt0;
     EDIS;
-    PieCtrlRegs.PIECTRL.bit.ENPIE = 1;
-    PieCtrlRegs.PIEIER1.bit.INTx7 = 1;
-    PieCtrlRegs.PIEIER9.bit.INTx7 = 1; // CANbINT0
+}
+
+static void Main_EnableInterruptSources(void)
+{
+    /* 配置外设期间可能产生标志，开放中断前统一清除。 */
+    PieCtrlRegs.PIEIFR1.all = 0U;
+    PieCtrlRegs.PIEIFR9.all = 0U;
+    PieCtrlRegs.PIEACK.all = 0xFFFFU;
+    IFR = 0x0000U;
+
+    /* 所有ISR和外设完成配置后，再统一开放PIE与CPU中断组。 */
+    PieCtrlRegs.PIECTRL.bit.ENPIE = 1U;
+    PieCtrlRegs.PIEIER1.bit.INTx7 = 1U;
+    PieCtrlRegs.PIEIER9.bit.INTx7 = 1U; // CANbINT0
     IER |= M_INT1;
     IER |= M_INT9; // CANbINT0
 }
 
-void TimerandIntCfg(void)
+static void Main_ConfigCpuTimer0(void)
 {
     ConfigCpuTimer(&CpuTimer0, 150, SYS_PERIOD);
-    EINT;
-    ERTM;
-    StartCpuTimer0();
+    CpuTimer0Regs.TCR.bit.TIF = 1U;
+    CpuTimer0Regs.TCR.bit.TRB = 1U;
 }
 
 /***********************************************************************
@@ -62,7 +70,7 @@ void main(void)
     //  InitFlash();
     /*=======================================================================*/
     InitSysCtrl();
-    PieInit();
+    Main_InitInterruptController();
     InitGpio();
     InitSpiaGpio();
     InitSpi();
@@ -78,18 +86,19 @@ void main(void)
 
     // USER Init
     InitUserPara();
-    XintfValidationInit();
 
-    /* 数字示波器验证：采集 ISR 中产生的递增斜坡。 */
-    DSO_ValidationInit();
+    Main_ConfigCpuTimer0();
+    Main_EnableInterruptSources();
 
-    TimerandIntCfg();
+    /* 中断接收端先就绪，AD7982 ePWM与CPU Timer作为触发源最后启动。 */
+    ERTM;
+    EINT;
+    StartCpuTimer0();
     EnableWDog();
 
     while (1)
     {
         FpgaMainReadUpdate();
-        XintfValidationProcess();
 
         for (index = 0; index < SOCKET_NUM_USE; index++)
         {
@@ -105,12 +114,18 @@ void main(void)
         if (mgmd_stSCIRx.jump_cmd == JUMP_TO_BOOT)
         {
             mgmd_stSCIRx.jump_cmd = 0;
-            // 将下载标志写入eeprom
+            /* 升级标志保存成功后，通过看门狗复位进入Boot。 */
             g_app_boot_eeprom_param.download_flag = APP_BOOT_DOWNLOAD_FLAG;
             DisableDog();
-            AppBootEeprom_Save();
-            EnableWDog();
-            load_boot();
+            if (AppBootEeprom_Save() == 0U)
+            {
+                AppBoot_ResetToBoot();
+            }
+            else
+            {
+                g_app_boot_eeprom_param.download_flag = APP_BOOT_DOWNLOAD_CLEAR;
+                EnableWDog();
+            }
         }
 
         EepromParam_Process();

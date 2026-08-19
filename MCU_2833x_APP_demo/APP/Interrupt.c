@@ -1,4 +1,5 @@
 #include "drv_GlobalVar.h"
+#include "Main.h"
 #include "drv_Adc.h"
 #include "DSP2833x_Device.h"   // Header file Include File
 #include "DSP2833x_Examples.h" // Examples Include File
@@ -18,32 +19,21 @@ interrupt void ISR_CanbInt0(void)
 {
     //    RecvCmdFormCtrlBoard();  //主控板报文解析
     PieCtrlRegs.PIEACK.all = PIEACK_GROUP9;
-    EINT;
 }
 
 // 定时器中断
 interrupt void INT6(void)
 {
-    DINT;
-
-    PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
-    CpuTimer0Regs.TCR.bit.TIF = 1;
-    CpuTimer0Regs.TCR.bit.TRB = 1;
-
-    // enable can interrupt
-    IER |= M_INT9;
-    EINT;
+    CpuTimer0Regs.TCR.bit.TIF = 1U;
 
     // 读 fpga 寄存器
-    FpgaISRReadUpdate();
+    // FpgaISRReadUpdate();
 
     // dsp 自带 adc 采样
     GetAdc();
 
-    DSO_ValidationISR();
-
     // 写 fpga 寄存器
-    FpgaISRWriteUpdate();
+    // FpgaISRWriteUpdate();
 
     task_run_cnt++;
     task_run_time = TIMER_CNT_MAX - NOW_TIMER_CNT;
@@ -51,6 +41,7 @@ interrupt void INT6(void)
     {
         max_task_run_time = task_run_time;
     }
+    PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
     return;
 }
 

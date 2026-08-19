@@ -287,7 +287,7 @@ void InitPeripheralClocks(void)
    SysCtrlRegs.PCLKCR1.bit.EPWM4ENCLK = 1;  // ePWM4
    SysCtrlRegs.PCLKCR1.bit.EPWM5ENCLK = 1;  // ePWM5
    SysCtrlRegs.PCLKCR1.bit.EPWM6ENCLK = 1;  // ePWM6
-   SysCtrlRegs.PCLKCR0.bit.TBCLKSYNC = 1;   // Enable TBCLK within the ePWM
+   // Keep all ePWM time bases stopped until the application is fully armed.
 
    SysCtrlRegs.PCLKCR1.bit.ECAP3ENCLK = 1;  // eCAP3
    SysCtrlRegs.PCLKCR1.bit.ECAP4ENCLK = 1;  // eCAP4
