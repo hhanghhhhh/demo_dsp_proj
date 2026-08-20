@@ -11,6 +11,9 @@ Uint16* md_rw2_buf[MD_RW2_SIZE];
 Uint16* md_rw3_buf[MD_RW3_SIZE];
 Uint16* md_w1_buf[MD_W1_SIZE];
 
+#define F32_WORD(x, n) (&(((Uint16 *)&(x))[n]))
+#define F32_H(x) F32_WORD(x, 1)
+#define F32_L(x) F32_WORD(x, 0)
 
 void InitModbusData()
 {
@@ -70,8 +73,8 @@ void md_vPrepareData(void)
 
    //0x1100
    //data
-   md_r2_buf[0x00] = &mgmd_stSCIRx.reserve;
-   md_r2_buf[0x01] = &mgmd_stSCIRx.reserve;
+    md_r2_buf[0x00] = F32_H(mgmd_stSCIRx.isamp);
+    md_r2_buf[0x01] = F32_L(mgmd_stSCIRx.isamp);
    md_r2_buf[0x02] = &mgmd_stSCIRx.reserve;
    md_r2_buf[0x03] = &mgmd_stSCIRx.reserve;
    md_r2_buf[0x04] = &mgmd_stSCIRx.reserve;
@@ -160,13 +163,13 @@ void md_vPrepareData(void)
 
    //0x5000
    //calibration coefficient
-   for(i = 0; i < APP_EEPROM_COEF_NUM; i++)
-   {
-       md_rw2_buf[0x00 + 4*i] = &mgmd_stSCIRx.coef.f32v_adc_p_k[i].u16.H;
-       md_rw2_buf[0x01 + 4*i] = &mgmd_stSCIRx.coef.f32v_adc_p_k[i].u16.L;
-       md_rw2_buf[0x02 + 4*i] = &mgmd_stSCIRx.coef.f32v_adc_p_b[i].u16.H;
-       md_rw2_buf[0x03 + 4*i] = &mgmd_stSCIRx.coef.f32v_adc_p_b[i].u16.L;
-   }
+//   for(i = 0; i < APP_EEPROM_COEF_NUM; i++)
+//   {
+//       md_rw2_buf[0x00 + 4*i] = &mgmd_stSCIRx.coef.f32v_adc_p_k[i].u16.H;
+//       md_rw2_buf[0x01 + 4*i] = &mgmd_stSCIRx.coef.f32v_adc_p_k[i].u16.L;
+//       md_rw2_buf[0x02 + 4*i] = &mgmd_stSCIRx.coef.f32v_adc_p_b[i].u16.H;
+//       md_rw2_buf[0x03 + 4*i] = &mgmd_stSCIRx.coef.f32v_adc_p_b[i].u16.L;
+//   }
 
    // 0x7000
    md_rw3_buf[0x00] = &mgmd_stSCIRx.program_type;

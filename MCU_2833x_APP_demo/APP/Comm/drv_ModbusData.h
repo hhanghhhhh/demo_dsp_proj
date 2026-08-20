@@ -37,15 +37,7 @@ TYPEDEFS
 #define JUMP_TO_BOOT    2
 
 
-typedef union
-{
-    float32     f32;
-    struct
-    {
-        Uint16 L;
-        Uint16 H;
-    }u16;
-}MODBUS_DATA;
+
 
 
 typedef struct
@@ -56,23 +48,12 @@ typedef struct
     Uint16          dataok;
 
     //常规参数
-    Uint16          power_ctrl;
-    Uint16          test_mode;
-    Uint16          autosample;
-    MODBUS_DATA     v_range;
-    MODBUS_DATA     i_range;
-    MODBUS_DATA     v_set;
-    MODBUS_DATA     i_set;
-    MODBUS_DATA     nplc;
-    MODBUS_DATA     plusewidth;
-    MODBUS_DATA     isamp;
-    MODBUS_DATA     vsamp;
-    MODBUS_DATA     isamp_avg;
-    MODBUS_DATA     vsamp_avg;
+    float32     isamp;
+    float32     vsamp;
+    float32     isamp_avg;
+    float32     vsamp_avg;
 
     Uint16          autorange;
-
-
 
     //功能配置参数
     struct
@@ -109,8 +90,8 @@ typedef struct
                 Uint16 reserve:12;
             }bit;
         }enable;
-        MODBUS_DATA     f32v_adc_p_k[64];   //预留60个
-        MODBUS_DATA     f32v_adc_p_b[64];
+//        MODBUS_DATA     f32v_adc_p_k[64];   //预留60个
+//        MODBUS_DATA     f32v_adc_p_b[64];
     }coef;
 
     Uint16    program_type;

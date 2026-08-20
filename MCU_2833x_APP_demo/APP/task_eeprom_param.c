@@ -27,8 +27,8 @@ static void EepromConfig_SyncToRuntime(void)
     mgmd_stSCIRx.coef.enable.u16 = user->coef_enable;
     for (i = 0; i < APP_EEPROM_COEF_NUM; i++)
     {
-        mgmd_stSCIRx.coef.f32v_adc_p_k[i].f32 = user->coef_k[i];
-        mgmd_stSCIRx.coef.f32v_adc_p_b[i].f32 = user->coef_b[i];
+//        mgmd_stSCIRx.coef.f32v_adc_p_k[i].f32 = user->coef_k[i];
+//        mgmd_stSCIRx.coef.f32v_adc_p_b[i].f32 = user->coef_b[i];
     }
 }
 
@@ -43,8 +43,8 @@ static void EepromConfig_SyncFromRuntime(void)
     user->coef_enable = mgmd_stSCIRx.coef.enable.u16;
     for (i = 0; i < APP_EEPROM_COEF_NUM; i++)
     {
-        user->coef_k[i] = mgmd_stSCIRx.coef.f32v_adc_p_k[i].f32;
-        user->coef_b[i] = mgmd_stSCIRx.coef.f32v_adc_p_b[i].f32;
+//        user->coef_k[i] = mgmd_stSCIRx.coef.f32v_adc_p_k[i].f32;
+//        user->coef_b[i] = mgmd_stSCIRx.coef.f32v_adc_p_b[i].f32;
     }
 }
 

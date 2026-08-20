@@ -89,7 +89,7 @@
 						</tool>
 					</fileInfo>
 					<sourceEntries>
-						<entry excluding="source/DSP2833x_CodeStartBranch.asm|source/UGEV_CPLD.c|source/Example_posspeed.c|source/DSP2833x_Sci.c|source/DSP2833x_SWPrioritizedPieVect.c|source/DSP2833x_SWPrioritizedDefaultIsr.c|source/DSP2833x_MemCopy.c|source/DSP2833x_Mcbsp.c|source/DSP2833x_EQep.c|source/DSP2833x_ECap.c|source/DSP2833x_DisInt.asm|source/DSP2833x_DMA.c|source/DSP2833x_CSMPasswords.asm|source/ADC_SOC_INT.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="ram_test|source/DSP2833x_CodeStartBranch.asm|source/UGEV_CPLD.c|source/Example_posspeed.c|source/DSP2833x_Sci.c|source/DSP2833x_SWPrioritizedPieVect.c|source/DSP2833x_SWPrioritizedDefaultIsr.c|source/DSP2833x_MemCopy.c|source/DSP2833x_Mcbsp.c|source/DSP2833x_EQep.c|source/DSP2833x_ECap.c|source/DSP2833x_DisInt.asm|source/DSP2833x_DMA.c|source/DSP2833x_CSMPasswords.asm|source/ADC_SOC_INT.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -175,7 +175,7 @@
 						</tool>
 					</fileInfo>
 					<sourceEntries>
-						<entry excluding="source/UGEV_CPLD.c|source/Example_posspeed.c|source/DSP2833x_Sci.c|source/DSP2833x_SWPrioritizedPieVect.c|source/DSP2833x_SWPrioritizedDefaultIsr.c|source/DSP2833x_MemCopy.c|source/DSP2833x_Mcbsp.c|source/DSP2833x_EQep.c|source/DSP2833x_ECap.c|source/DSP2833x_DisInt.asm|source/DSP2833x_DMA.c|source/DSP2833x_CSMPasswords.asm|source/ADC_SOC_INT.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="ram_test|source/UGEV_CPLD.c|source/Example_posspeed.c|source/DSP2833x_Sci.c|source/DSP2833x_SWPrioritizedPieVect.c|source/DSP2833x_SWPrioritizedDefaultIsr.c|source/DSP2833x_MemCopy.c|source/DSP2833x_Mcbsp.c|source/DSP2833x_EQep.c|source/DSP2833x_ECap.c|source/DSP2833x_DisInt.asm|source/DSP2833x_DMA.c|source/DSP2833x_CSMPasswords.asm|source/ADC_SOC_INT.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
