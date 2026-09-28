@@ -5,22 +5,22 @@
 float32 g_dso_validation_value = 0.0F;
 Uint32 g_dso_validation_isr_count = 0UL;
 
-void DSO_ValidationInit(void)
-{
-    g_dso_validation_value = 0.0F;
-    g_dso_validation_isr_count = 0UL;
-
-    DSO_Init();
-    DSO_ConfigChannel(CH0_XXDATA,
-                      &g_dso_validation_value,
-                      1UL,
-                      DSO_BUF_LEN);
-    DSO_Start(CH0_XXDATA);
-}
-
-void DSO_ValidationISR(void)
-{
-    g_dso_validation_value = (float32)g_dso_validation_isr_count;
-    g_dso_validation_isr_count++;
-    DSO_Sample();
-}
+//void DSO_ValidationInit(void)
+//{
+//    g_dso_validation_value = 0.0F;
+//    g_dso_validation_isr_count = 0UL;
+//
+//    DSO_Init();
+//    DSO_ConfigChannel(CH0_XXDATA,
+//                      &g_dso_validation_value,
+//                      1UL,
+//                      DSO_BUF_LEN);
+//    DSO_Start(CH0_XXDATA);
+//}
+//
+//void DSO_ValidationISR(void)
+//{
+//    g_dso_validation_value = (float32)g_dso_validation_isr_count;
+//    g_dso_validation_isr_count++;
+//    DSO_Sample();
+//}

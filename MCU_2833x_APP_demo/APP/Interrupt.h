@@ -8,14 +8,6 @@
 Declare external variables
 ***********************************************************************/
 
-extern Uint16   slINTcnt;
-extern Uint16   slINT1ms;
-extern Uint16   slINT10ms;
-extern Uint16   slINT100ms;
-extern Uint16   slINT1s;
-
-
-
 /***********************************************************************
 * Function header definition
 ***********************************************************************/

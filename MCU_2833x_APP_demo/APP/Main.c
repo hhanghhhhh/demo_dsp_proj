@@ -4,11 +4,9 @@
 #include "W5500/drv_Spi.h"
 #include "W5500/udp.h"
 #include "task_eeprom_param.h"
-#include "app_boot_eeprom.h"
 #include "app_boot.h"
 #include "DSP2833x_Device.h"   // Header file Include File
 #include "DSP2833x_Examples.h" // Examples Include File
-#include "drv_ModbusData.h"
 #include "drv_Fpga.h"
 #include "Version.h"
 #include "task_scope.h"
@@ -110,23 +108,9 @@ void main(void)
         do_udp(7);
 
         CheckW5500Status();
+		
+        AppBoot_Process();
 
-        if (mgmd_stSCIRx.jump_cmd == JUMP_TO_BOOT)
-        {
-            mgmd_stSCIRx.jump_cmd = 0;
-            /* 升级标志保存成功后，通过看门狗复位进入Boot。 */
-            g_app_boot_eeprom_param.download_flag = APP_BOOT_DOWNLOAD_FLAG;
-            DisableDog();
-            if (AppBootEeprom_Save() == 0U)
-            {
-                AppBoot_ResetToBoot();
-            }
-            else
-            {
-                g_app_boot_eeprom_param.download_flag = APP_BOOT_DOWNLOAD_CLEAR;
-                EnableWDog();
-            }
-        }
 
         EepromParam_Process();
 

@@ -11,7 +11,8 @@ Debug/
 *.rpt
 *.tsm
 *.log
-
+log/
+testbench/
 
 
 

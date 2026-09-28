@@ -1,8 +1,31 @@
 #include "app_boot.h"
+#include "app_boot_eeprom.h"
+#include "drv_ModbusData.h"
 #include "DSP2833x_Device.h"
 #include "DSP2833x_Examples.h"
 
 #define APP_BOOT_WD_RESET_CONTROL    (0x0028U)
+
+/* 检查升级命令，升级标志保存成功后复位进入Boot。 */
+void AppBoot_Process(void)
+{
+    if (mgmd_stSCIRx.jump_cmd != JUMP_TO_BOOT)
+    {
+        return;
+    }
+
+    mgmd_stSCIRx.jump_cmd = 0U;
+    g_app_boot_eeprom_param.download_flag = APP_BOOT_DOWNLOAD_FLAG;
+    DisableDog();
+
+    if (AppBootEeprom_Save() == 0U)
+    {
+        AppBoot_ResetToBoot();
+    }
+
+    g_app_boot_eeprom_param.download_flag = APP_BOOT_DOWNLOAD_CLEAR;
+    EnableWDog();
+}
 
 void AppBoot_ResetToBoot(void)
 {
